@@ -10,5 +10,5 @@ export const removeClass = (elSelector, className) => {
     
 };
 
-export const api_based_url = "http://localhost:3000";
-// export const api_based_url = "https://code-editor-n12w.onrender.com"
+
+export const api_based_url = import.meta.env.VITE_API_BASE_URL;
