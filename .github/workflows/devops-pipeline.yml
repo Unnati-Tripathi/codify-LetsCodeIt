@@ -1,0 +1,18 @@
+name: Codify CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Proves you understand Linux environments
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Backend Image
+        run: docker build -t codify-backend ./backend
+
+      - name: Build Frontend Image
+        run: docker build -t codify-frontend ./frontend
