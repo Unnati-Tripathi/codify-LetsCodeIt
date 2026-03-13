@@ -66,32 +66,3 @@ export default OutputTerminal;
 
 
 
-
-
-
-
-// // src/components/OutputTerminal.jsx
-// export default function OutputTerminal({ userInput, setUserInput, output, isLightMode }) {
-//   return (
-//     <div className={`flex flex-col h-full ${isLightMode ? "text-black" : "text-white"}`}>
-//       <div className="p-4 flex-1 border-b border-white/5">
-//         <h3 className="text-xs font-bold uppercase mb-2 opacity-50">Input (STDIN)</h3>
-//         <textarea
-//           value={userInput}
-//           onChange={(e) => setUserInput(e.target.value)}
-//           placeholder="Type inputs here..."
-//           className={`w-full h-32 p-3 rounded-md resize-none outline-none font-mono text-sm ${
-//             isLightMode ? "bg-gray-100 border border-gray-300" : "bg-[#1e1e1e] text-white"
-//           }`}
-//         />
-//       </div>
-      
-//       <div className="p-4 flex-[2] overflow-auto font-mono text-sm">
-//         <h3 className="text-xs font-bold uppercase mb-2 opacity-50">Output</h3>
-//         <pre className={output.includes("Error") ? "text-red-500" : "text-green-500"}>
-//           {output || "Run code to see output..."}
-//         </pre>
-//       </div>
-//     </div>
-//   );
-// }
