@@ -8,7 +8,7 @@ router.post("/run", async (req, res) => {
   
   const options = {
   method: 'POST',
-  url: 'https://judge029.p.rapidapi.com/submissions', // Use the CodeArena URL
+  url: 'https://judge029.p.rapidapi.com/submissions', 
   params: { base64_encoded: 'true', fields: '*' },
   headers: {
     'content-type': 'application/json',
