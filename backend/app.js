@@ -12,15 +12,33 @@ var usersRouter = require('./routes/users');
 var compilerRouter = require('./routes/compiler'); 
 
 const mongoose = require('mongoose');
-const mongoURI = process.env.MONGODB_URI;
+const mongoURI = process.env.MONGODB_URI || process.env.MONGO_URI;
+
+const userModel = require('./models/userModels');
+const bcrypt = require('bcryptjs');
 
 mongoose.connect(mongoURI)
-  .then(() => console.log("🚀 Connected to MongoDB Atlas!"))
+  .then(async () => {
+    console.log("🚀 Connected to MongoDB!");
+    const adminExists = await userModel.findOne({ email: 'admin@gmail.com' });
+    if (!adminExists) {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash('admin', salt);
+      await userModel.create({
+        username: 'admin',
+        name: 'Admin',
+        email: 'admin@gmail.com',
+        password: hash,
+        isAdmin: true
+      });
+      console.log("👑 Default admin user created (admin@gmail.com / admin)");
+    }
+  })
   .catch((err) => console.error("❌ Connection error:", err));
 
 var app = express();
 
-console.log("Database URI:", process.env.MONGODB_URI ? "Loaded" : "Missing");
+console.log("Database URI:", mongoURI ? "Loaded" : "Missing");
 console.log("RapidAPI Host:", process.env.RAPIDAPI_HOST);
 
 
@@ -50,10 +68,3 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 module.exports = app;
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
-

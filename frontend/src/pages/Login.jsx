@@ -275,7 +275,14 @@ export default function Login() {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("isLoggedIn", true);
                 localStorage.setItem("userId", data.userId);
-                navigate("/");
+                if (data.name) {
+                    localStorage.setItem("userName", data.name);
+                }
+                if (data.isAdmin) {
+                    navigate("/admin");
+                } else {
+                    navigate("/");
+                }
             } else {
                 setError(data.message);
             }

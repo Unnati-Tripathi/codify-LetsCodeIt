@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
       if (isMatch === true) {
         const currentSecret = process.env.JWT_SECRET ;
         let token = jwt.sign({ email: user.email, userId: user._id }, currentSecret);
-        return res.json({ success: true, message: "Logged in Successfully", token: token, userId: user._id });
+        return res.json({ success: true, message: "Logged in Successfully", token: token, userId: user._id, isAdmin: user.isAdmin, name: user.name });
       } else {
         return res.json({ success: false, message: "Invalid Id or Password" });
       }
@@ -63,6 +63,35 @@ router.post("/getUserDetails", async (req, res) => {
     return res.json({ success: true, message: "user details fetched successfully", user: user });
   } else {
     return res.json({ success: false, message: "User not found" });
+  }
+});
+
+router.get("/getAllUsers", async (req, res) => {
+  try {
+    let users = await userModel.find({});
+    let usersWithProjects = await Promise.all(users.map(async (user) => {
+      let projects = await projectModel.find({ createdBy: user._id });
+      return { ...user.toObject(), projectCount: projects.length };
+    }));
+    return res.json({ success: true, users: usersWithProjects });
+  } catch (error) {
+    return res.json({ success: false, message: "Failed to fetch users" });
+  }
+});
+
+router.post("/deleteUser", async (req, res) => {
+  let { userId } = req.body;
+  try {
+    let user = await userModel.findById(userId);
+    if (!user) return res.json({ success: false, message: "User not found" });
+    if (user.isAdmin) return res.json({ success: false, message: "Cannot delete admin" });
+    
+    await projectModel.deleteMany({ createdBy: userId });
+    await userModel.findByIdAndDelete(userId);
+    
+    return res.json({ success: true, message: "User and associated projects deleted" });
+  } catch (error) {
+    return res.json({ success: false, message: "Failed to delete user" });
   }
 });
 

@@ -6,6 +6,8 @@ import NoPage from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Editor from "./pages/Editior";
+import AdminPortal from "./pages/AdminPortal";
+
 export default function App() {
   return (
     <>
@@ -14,6 +16,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/Login" element={<Login />} />
+          <Route path="/admin" element={<AdminPortal />} />
           <Route path="/Editor/:projectID" element={<Editor />} />
           <Route path="*" element={<NoPage />} />
           <Route path="/" element={<Home />} />

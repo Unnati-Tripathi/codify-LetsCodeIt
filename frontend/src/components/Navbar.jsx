@@ -4,9 +4,11 @@
 
 import React from "react";
 import logo from "../images/logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = ({ isLightMode }) => {
+  const navigate = useNavigate();
+
   const userInitial =
     localStorage.getItem("userName")?.substring(0, 1).toUpperCase() ||
     localStorage.getItem("userId")?.substring(0, 1).toUpperCase() ||
@@ -52,6 +54,23 @@ const Navbar = ({ isLightMode }) => {
         >
           {userInitial}
         </div>
+
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("userName");
+            navigate("/login");
+          }}
+          className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+            isLightMode
+              ? "bg-red-500/10 text-red-600 hover:bg-red-500 hover:text-white"
+              : "bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500 hover:text-white"
+          }`}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
