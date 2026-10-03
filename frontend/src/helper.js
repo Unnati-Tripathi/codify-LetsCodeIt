@@ -11,5 +11,5 @@ export const removeClass = (elSelector, className) => {
 };
 
 
-export const api_based_url = "http://localhost:5000";
-// export const api_based_url = "https://your-deployed-backend-url";
+export const api_based_url = "https://codify-letscodeit-backend.onrender.com";
+// export const api_based_url = "http://localhost:5000";
